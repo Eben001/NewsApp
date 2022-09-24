@@ -6,14 +6,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.ebenezer.gana.newsapp.databinding.ItemArticlePreviewBinding
+import coil.load
+import com.ebenezer.gana.newsapp.R
 import com.ebenezer.gana.newsapp.data.models.Article
+import com.ebenezer.gana.newsapp.databinding.ItemArticlePreviewBinding
 
 class NewsAdapter(
     private val context: Context,
     private val onItemClicked: (Article) -> Unit
-) :ListAdapter<Article, NewsAdapter.ArticleViewHolder>(DiffCallback) {
+) : ListAdapter<Article, NewsAdapter.ArticleViewHolder>(DiffCallback) {
 
 
     inner class ArticleViewHolder(private var binding: ItemArticlePreviewBinding) :
@@ -26,14 +27,16 @@ class NewsAdapter(
                 tvDescription.text = article.description
                 tvPublishedAt.text = article.publishedAt
 
-                Glide.with(context).load(article.urlToImage)
-                    .into(ivArticleImage)
+                ivArticleImage.load(article.urlToImage){
+                    placeholder(R.drawable.loading_animation)
+                    error(R.drawable.ic_broken_image)
+                }
             }
 
         }
     }
 
-    companion object{
+    companion object {
 
         private val DiffCallback = object : DiffUtil.ItemCallback<Article>() {
             override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
