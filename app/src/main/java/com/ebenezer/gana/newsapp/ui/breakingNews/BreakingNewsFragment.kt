@@ -74,10 +74,10 @@ class BreakingNewsFragment : Fragment() {
                         .collectLatest { response ->
                             when (response) {
                                 is Result.Loading -> {
-                                    showProgressBar()
+                                    startRefreshing()
                                 }
                                 is Result.Success -> {
-                                    hideProgressBar()
+                                    stopRefreshing()
                                     response.data.let { newsResponse ->
                                         newsAdapter.submitList(newsResponse?.articles?.toList())
 
@@ -87,16 +87,20 @@ class BreakingNewsFragment : Fragment() {
                                         if (isLastPage) {
                                             binding.rvBreakingNews.setPadding(0, 0, 0, 0)
                                         }
+
                                     }
+
                                 }
                                 else -> {
-                                    hideProgressBar()
+                                    stopRefreshing()
                                     response?.asString(requireContext())?.let { message ->
                                         Toast.makeText(
                                             requireContext(),
                                             "An Error occurred: $message",
                                             Toast.LENGTH_SHORT
                                         ).show()
+
+
                                     }
 
                                 }
@@ -109,20 +113,25 @@ class BreakingNewsFragment : Fragment() {
 
         }
     }
+    private fun stopRefreshing() {
+        if (binding.swipeRefresh.isRefreshing) {
+            binding.swipeRefresh.isRefreshing = false
+            isLoading = false
 
-    private fun showProgressBar() {
-        binding.paginationProgressBar.visibility = View.VISIBLE
+        }
+    }
+    private fun startRefreshing(){
+        binding.swipeRefresh.isRefreshing = true
         isLoading = true
     }
 
-    private fun hideProgressBar() {
-        binding.paginationProgressBar.visibility = View.INVISIBLE
-        isLoading = false
-
-    }
-
     private fun setOnClickListeners() {
-        //TODO
+        binding.swipeRefresh.setOnRefreshListener {
+            lifecycleScope.launch {
+                viewModel.getBreakingNews(CODE_NIGERIA)
+                binding.swipeRefresh.isRefreshing = true
+            }
+        }
     }
 
     private fun addOnScrollListener() {
