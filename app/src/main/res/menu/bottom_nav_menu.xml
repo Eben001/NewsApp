@@ -4,13 +4,13 @@
     <item
         android:id="@+id/navigation_breakingNewsFragment"
         android:icon="@drawable/ic_breaking_news"
-        android:title="Breaking News" />
+        android:title="@string/breaking_news" />
     <item
         android:id="@+id/navigation_savedNewsFragment"
         android:icon="@drawable/ic_favorite"
-        android:title="Saved News" />
+        android:title="@string/saved_news" />
     <item
         android:id="@+id/navigation_searchNewsFragment"
-        android:icon="@drawable/ic_all_news"
-        android:title="Search News" />
+        android:icon="@drawable/ic_search"
+        android:title="@string/search_news" />
 </menu>
