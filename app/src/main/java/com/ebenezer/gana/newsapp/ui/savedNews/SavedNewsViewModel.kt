@@ -2,9 +2,10 @@ package com.ebenezer.gana.newsapp.ui.savedNews
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ebenezer.gana.newsapp.R
 import com.ebenezer.gana.newsapp.models.Article
 import com.ebenezer.gana.newsapp.repository.NewsRepository
-import com.ebenezer.gana.newsapp.util.Resource
+import com.ebenezer.gana.newsapp.util.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -17,7 +18,7 @@ class SavedNewsViewModel @Inject constructor(
     private val newsRepository: NewsRepository,
 ) : ViewModel() {
 
-    private val _resultSharedFlow = MutableSharedFlow<Resource<String>>()
+    private val _resultSharedFlow = MutableSharedFlow<Result.StringResource<Int>>()
     val resultSharedFlow = _resultSharedFlow.asSharedFlow()
 
 
@@ -27,11 +28,13 @@ class SavedNewsViewModel @Inject constructor(
 
     fun getSavedNews(): Flow<List<Article>> = newsRepository.getSavedNews()
 
+
     fun deleteArticle(article: Article) = viewModelScope.launch {
         newsRepository.deleteArticle(article)
-        viewModelScope.launch {
-            _resultSharedFlow.emit(Resource.Success("Deleted Successfully"))
-        }
+        _resultSharedFlow.emit(Result.StringResource(R.string.deleted_successfully))
+
+
+
 
     }
 }

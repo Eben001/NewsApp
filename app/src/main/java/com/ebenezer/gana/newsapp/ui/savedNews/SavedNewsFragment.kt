@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -16,7 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ebenezer.gana.newsapp.adapters.NewsAdapter
 import com.ebenezer.gana.newsapp.databinding.FragmentSavedNewsBinding
-import com.ebenezer.gana.newsapp.util.Resource
+import com.ebenezer.gana.newsapp.util.Result
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.catch
@@ -70,19 +71,17 @@ class SavedNewsFragment : Fragment() {
                 lifecycleScope.launch {
                     viewModel.resultSharedFlow
                         .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                        .collectLatest {
-                            when (it) {
-                                is Resource.Success -> Snackbar.make(
-                                    view,
-                                    "${it.data}",
-                                    Snackbar.LENGTH_LONG
-                                ).apply {
-                                    setAction("Undo") {
-                                        viewModel.saveArticle(article)
-                                    }
-                                    show()
+                        .collectLatest { result ->
+                            Snackbar.make(
+                                view,
+                                "${result.asString(requireContext())}",
+                                Snackbar.LENGTH_LONG
+                            ).apply {
+                                setAction("Undo") {
+                                    viewModel.saveArticle(article)
                                 }
-                                else -> {}
+                                show()
+
                             }
                         }
                 }

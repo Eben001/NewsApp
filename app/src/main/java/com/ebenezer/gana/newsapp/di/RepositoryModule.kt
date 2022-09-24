@@ -3,6 +3,8 @@ package com.ebenezer.gana.newsapp.di
 import com.ebenezer.gana.newsapp.network.api.NewsApi
 import com.ebenezer.gana.newsapp.db.ArticleDao
 import com.ebenezer.gana.newsapp.repository.NewsRepository
+import com.ebenezer.gana.newsapp.repository.NewsRepositoryImpl
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,10 +13,10 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
-    @Provides
+abstract class RepositoryModule {
+
+    @Binds
     @Singleton
-    fun provideNewsRepository(articleDao: ArticleDao,newsApi: NewsApi ) =
-        NewsRepository(articleDao, newsApi)
+    abstract fun provideNewsRepository(newsRepositoryImpl: NewsRepositoryImpl):NewsRepository
 
 }

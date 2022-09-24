@@ -18,7 +18,7 @@ import com.ebenezer.gana.newsapp.adapters.NewsAdapter
 import com.ebenezer.gana.newsapp.databinding.FragmentBreakingNewsBinding
 import com.ebenezer.gana.newsapp.util.Constants.Companion.CODE_NIGERIA
 import com.ebenezer.gana.newsapp.util.Constants.Companion.QUERY_PAGE_SIZE
-import com.ebenezer.gana.newsapp.util.Resource
+import com.ebenezer.gana.newsapp.util.Result
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -47,47 +47,64 @@ class BreakingNewsFragment : Fragment() {
         setupAdapter()
         setupRecyclerView()
         subscribeToObservables()
+        setOnClickListeners()
+        addOnScrollListener()
+    }
 
-        binding.rvBreakingNews.addOnScrollListener(scrollListener)
+    private fun setupAdapter() {
+        newsAdapter = NewsAdapter(requireContext()) {
+            val action =
+                BreakingNewsFragmentDirections.actionBreakingNewsFragmentToArticleFragment(it)
+            findNavController().navigate(action)
+        }
+    }
+
+    private fun setupRecyclerView() {
+        binding.rvBreakingNews.apply {
+            adapter = newsAdapter
+            layoutManager = LinearLayoutManager(activity)
+        }
     }
 
     private fun subscribeToObservables() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.breakingNewsResult
-                    .collectLatest { response ->
-                        when (response) {
-                            is Resource.Loading -> {
-                                showProgressBar()
-                            }
-                            is Resource.Success -> {
-                                hideProgressBar()
-                                response.data.let { newsResponse ->
-                                    newsAdapter.submitList(newsResponse?.articles?.toList())
+                launch {
+                    viewModel.breakingNewsResult
+                        .collectLatest { response ->
+                            when (response) {
+                                is Result.Loading -> {
+                                    showProgressBar()
+                                }
+                                is Result.Success -> {
+                                    hideProgressBar()
+                                    response.data.let { newsResponse ->
+                                        newsAdapter.submitList(newsResponse?.articles?.toList())
 
-                                    val totalPages =
-                                        newsResponse!!.totalResults / QUERY_PAGE_SIZE + 2
-                                    isLastPage = viewModel.breakingNewsPage == totalPages
-                                    if (isLastPage) {
-                                        binding.rvBreakingNews.setPadding(0, 0, 0, 0)
+                                        val totalPages =
+                                            newsResponse!!.totalResults / QUERY_PAGE_SIZE + 2
+                                        isLastPage = viewModel.breakingNewsPage == totalPages
+                                        if (isLastPage) {
+                                            binding.rvBreakingNews.setPadding(0, 0, 0, 0)
+                                        }
                                     }
                                 }
-                            }
-                            else -> {
+                                else -> {
+                                    hideProgressBar()
+                                    response?.asString(requireContext())?.let { message ->
+                                        Toast.makeText(
+                                            requireContext(),
+                                            "An Error occurred: $message",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
 
-                                hideProgressBar()
-                                response?.message?.let { message ->
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "An Error occurred: $message",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
                                 }
 
                             }
-
                         }
-                    }
+                }
+
             }
 
         }
@@ -104,12 +121,12 @@ class BreakingNewsFragment : Fragment() {
 
     }
 
-    private fun setupAdapter() {
-        newsAdapter = NewsAdapter(requireContext()) {
-            val action =
-                BreakingNewsFragmentDirections.actionBreakingNewsFragmentToArticleFragment(it)
-            findNavController().navigate(action)
-        }
+    private fun setOnClickListeners() {
+        //TODO
+    }
+
+    private fun addOnScrollListener() {
+        binding.rvBreakingNews.addOnScrollListener(scrollListener)
     }
 
     var isLoading = false
@@ -144,13 +161,6 @@ class BreakingNewsFragment : Fragment() {
                 viewModel.getBreakingNews(CODE_NIGERIA)
                 isScrolling = false
             }
-        }
-    }
-
-    private fun setupRecyclerView() {
-        binding.rvBreakingNews.apply {
-            adapter = newsAdapter
-            layoutManager = LinearLayoutManager(activity)
         }
     }
 

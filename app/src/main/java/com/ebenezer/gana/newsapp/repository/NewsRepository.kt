@@ -1,27 +1,24 @@
 package com.ebenezer.gana.newsapp.repository
 
-import com.ebenezer.gana.newsapp.network.api.NewsApi
-import com.ebenezer.gana.newsapp.db.ArticleDao
 import com.ebenezer.gana.newsapp.models.Article
+import com.ebenezer.gana.newsapp.models.NewsResponse
+import com.ebenezer.gana.newsapp.util.Result
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
+import retrofit2.Response
 
-class NewsRepository @Inject constructor(
-    private val articleDao: ArticleDao,
-    private val newsApi: NewsApi
-) {
+interface NewsRepository {
 
-    suspend fun getBreakingNews(countryCode: String, pageNumber: Int) =
-        newsApi.getBreakingNews(countryCode, pageNumber)
+    suspend fun getBreakingNews(
+        countryCode: String,
+        pageNumber: Int
+    ): Result<Response<NewsResponse>>
 
-    suspend fun searchNews(searchQuery: String, pageNumber: Int) =
-        newsApi.searchNews(searchQuery, pageNumber)
+    suspend fun searchNews(searchQuery: String, pageNumber: Int): Result<Response<NewsResponse>>
 
-    suspend fun upsert(article: Article) = articleDao.upsert(article)
+    suspend fun upsert(article: Article): Long
 
-    fun getSavedNews():Flow<List<Article>> = articleDao.getAllArticles()
+    fun getSavedNews(): Flow<List<Article>>
 
-
-    suspend fun deleteArticle(article: Article) = articleDao.deleteArticle(article)
+    suspend fun deleteArticle(article: Article)
 
 }

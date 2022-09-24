@@ -13,7 +13,6 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.ebenezer.gana.newsapp.databinding.FragmentArticleBinding
-import com.ebenezer.gana.newsapp.util.Resource
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -46,7 +45,7 @@ class ArticleFragment : Fragment() {
         val article = args.article
         binding.webView.apply {
             webViewClient = WebViewClient()
-            article?.url.let {
+            article.url.let {
                 loadUrl(it!!)
             }
         }
@@ -55,19 +54,11 @@ class ArticleFragment : Fragment() {
             viewModel.resultSharedFlow
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collectLatest {
-                    when (it) {
-                        is Resource.Success -> Snackbar.make(
-                            view,
-                            "${it.data}",
-                            Snackbar.LENGTH_SHORT
-                        ).show()
-                        is Resource.Error -> Snackbar.make(
-                            view,
-                            "${it.message}",
-                            Snackbar.LENGTH_SHORT
-                        ).show()
-                        else -> {}
-                    }
+                    Snackbar.make(
+                        view,
+                        "${it.asString(requireContext())}",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                 }
         }
         binding.fab.setOnClickListener {

@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">NewsApp</string>
+
+    <string name="err_http_error">Something went wrong, Please try again</string>
+    <string name="err_check_internet_connection">Please check your internet connection and try again</string>
+    <string name="err_no_internet">No Internet Connection</string>
+    <string name="general_exception">Something went wrong</string>
+    <string name="err_network_failure">Network Failure</string>
+    <string name="deleted_successfully">Deleted Successfully</string>
+    <string name="saved_successfully">Saved Successfully</string>
+
 </resources>

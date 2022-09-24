@@ -1,7 +1,6 @@
 package com.ebenezer.gana.newsapp.ui.searchNews
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
@@ -21,7 +19,7 @@ import com.ebenezer.gana.newsapp.adapters.NewsAdapter
 import com.ebenezer.gana.newsapp.databinding.FragmentSearchNewsBinding
 import com.ebenezer.gana.newsapp.util.Constants
 import com.ebenezer.gana.newsapp.util.Constants.Companion.SEARCH_NEWS_DELAY
-import com.ebenezer.gana.newsapp.util.Resource
+import com.ebenezer.gana.newsapp.util.Result
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
@@ -67,42 +65,41 @@ class SearchNewsFragment : Fragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-           repeatOnLifecycle(Lifecycle.State.STARTED){
-               viewModel.searchNewsResult
-                   .collectLatest { response ->
-                       when (response) {
-                           is Resource.Loading -> {
-                               showProgressBar()
-                           }
-                           is Resource.Success -> {
-                               hideProgressBar()
-                               response.data.let { newsResponse ->
-                                   newsAdapter.submitList(newsResponse!!.articles.toList())
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.searchNewsResult
+                    .collectLatest { response ->
+                        when (response) {
+                            is Result.Loading -> {
+                                showProgressBar()
+                            }
+                            is Result.Success -> {
+                                hideProgressBar()
+                                response.data.let { newsResponse ->
+                                    newsAdapter.submitList(newsResponse!!.articles.toList())
 
-                                   val totalPages =
-                                       newsResponse.totalResults / Constants.QUERY_PAGE_SIZE + 2
-                                   isLastPage = viewModel.searchNewsPage == totalPages
+                                    val totalPages =
+                                        newsResponse.totalResults / Constants.QUERY_PAGE_SIZE + 2
+                                    isLastPage = viewModel.searchNewsPage == totalPages
 
-                                   if (isLastPage) {
-                                       binding.rvSearchNews.setPadding(0, 0, 0, 0)
-                                   }
-                               }
-                           }
-                           else -> {
-                               hideProgressBar()
-                               response?.message?.let { message ->
-                                   Toast.makeText(
-                                       activity,
-                                       "An Error occurred: $message",
-                                       Toast.LENGTH_SHORT
-                                   )
-                                       .show()
-                               }
-                           }
+                                    if (isLastPage) {
+                                        binding.rvSearchNews.setPadding(0, 0, 0, 0)
+                                    }
+                                }
+                            }
+                            else -> {
+                                hideProgressBar()
+                                response?.asString(requireContext())?.let {
+                                    Toast.makeText(
+                                        activity,
+                                        "An Error occurred: $it",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
 
-                       }
-                   }
-           }
+                        }
+                    }
+            }
         }
 
 

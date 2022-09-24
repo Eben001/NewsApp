@@ -3,6 +3,7 @@ package com.ebenezer.gana.newsapp.db
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.ebenezer.gana.newsapp.models.Article
+import com.ebenezer.gana.newsapp.util.Result
 import kotlinx.coroutines.flow.Flow
 
 @Dao
