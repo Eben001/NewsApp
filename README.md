@@ -10,7 +10,6 @@ A news app for getting updated news
 * [Project Status](#project-status)
 * [Acknowledgements](#acknowledgements)
 
-<!-- * [License](#license) -->
 
 ## General Information
 - A news app that gives up-to-date news from [News Api](https://newsapi.org/)
@@ -35,6 +34,7 @@ A news app for getting updated news
 - Pagination
 
 ## Screenshots
+![Untitled design (2)](https://user-images.githubusercontent.com/54691862/192108449-28b82e38-a6fc-48f4-87bc-8963822d9e2c.png)
 
 
 ## Project Status
