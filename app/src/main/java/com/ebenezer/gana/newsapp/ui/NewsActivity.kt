@@ -1,9 +1,7 @@
 package com.ebenezer.gana.newsapp.ui
 
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -11,8 +9,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.ebenezer.gana.newsapp.R
 import com.ebenezer.gana.newsapp.databinding.ActivityNewsBinding
-import com.ebenezer.gana.newsapp.db.ArticleDatabase
-import com.ebenezer.gana.newsapp.repository.NewsRepository
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

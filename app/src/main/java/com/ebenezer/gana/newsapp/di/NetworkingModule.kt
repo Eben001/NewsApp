@@ -4,8 +4,8 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.ebenezer.gana.newsapp.network.InternetConnectivityChecker
-import com.ebenezer.gana.newsapp.network.api.NewsApi
+import com.ebenezer.gana.newsapp.data.remote.InternetConnectivityChecker
+import com.ebenezer.gana.newsapp.data.remote.api.NewsApi
 import com.ebenezer.gana.newsapp.util.Constants.Companion.API_KEY
 import com.ebenezer.gana.newsapp.util.Constants.Companion.BASE_URL
 import dagger.Module

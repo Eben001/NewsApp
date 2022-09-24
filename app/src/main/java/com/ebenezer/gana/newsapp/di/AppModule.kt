@@ -2,7 +2,7 @@ package com.ebenezer.gana.newsapp.di
 
 import android.content.Context
 import androidx.room.Room
-import com.ebenezer.gana.newsapp.db.ArticleDatabase
+import com.ebenezer.gana.newsapp.data.local.ArticleDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,6 +22,7 @@ object AppModule {
             ArticleDatabase::class.java,
             "article_db"
         ).build()
+
     @Provides
     @Singleton
     fun provideArticleDao(articleDatabase: ArticleDatabase) = articleDatabase.getArticleDao()

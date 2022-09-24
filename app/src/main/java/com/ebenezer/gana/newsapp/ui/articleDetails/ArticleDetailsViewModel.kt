@@ -3,8 +3,8 @@ package com.ebenezer.gana.newsapp.ui.articleDetails
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ebenezer.gana.newsapp.R
-import com.ebenezer.gana.newsapp.models.Article
-import com.ebenezer.gana.newsapp.network.InternetConnectivityChecker
+import com.ebenezer.gana.newsapp.data.models.Article
+import com.ebenezer.gana.newsapp.data.remote.InternetConnectivityChecker
 import com.ebenezer.gana.newsapp.repository.NewsRepository
 import com.ebenezer.gana.newsapp.util.Result
 import dagger.hilt.android.lifecycle.HiltViewModel

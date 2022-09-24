@@ -15,8 +15,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ebenezer.gana.newsapp.adapters.NewsAdapter
 import com.ebenezer.gana.newsapp.databinding.FragmentSearchNewsBinding
+import com.ebenezer.gana.newsapp.ui.adapters.NewsAdapter
 import com.ebenezer.gana.newsapp.util.Constants
 import com.ebenezer.gana.newsapp.util.Constants.Companion.SEARCH_NEWS_DELAY
 import com.ebenezer.gana.newsapp.util.Result

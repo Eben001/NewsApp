@@ -25,7 +25,7 @@
         android:label="News" >
         <argument
             android:name="article"
-            app:argType="com.ebenezer.gana.newsapp.models.Article" />
+            app:argType="com.ebenezer.gana.newsapp.data.models.Article" />
     </fragment>
     <fragment
         android:id="@+id/navigation_savedNewsFragment"

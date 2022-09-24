@@ -14,7 +14,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ebenezer.gana.newsapp.adapters.NewsAdapter
+import com.ebenezer.gana.newsapp.ui.adapters.NewsAdapter
 import com.ebenezer.gana.newsapp.databinding.FragmentBreakingNewsBinding
 import com.ebenezer.gana.newsapp.util.Constants.Companion.CODE_NIGERIA
 import com.ebenezer.gana.newsapp.util.Constants.Companion.QUERY_PAGE_SIZE
