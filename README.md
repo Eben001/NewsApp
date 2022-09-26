@@ -38,4 +38,4 @@ A news app for getting updated news
 
 
 ## Project Status
-Project is: _completed_ 
+Project is: _in progress_ 
