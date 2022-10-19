@@ -7,7 +7,7 @@ A news app for getting updated news
 * [Features](#features)
 * [Screenshots](#screenshots)
 * [Project Status](#project-status)
-* [Acknowledgements](#acknowledgements)
+
 
 
 ## General Information
