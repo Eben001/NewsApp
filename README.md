@@ -6,7 +6,6 @@ A news app for getting updated news
 * [Technologies Used](#technologies-used)
 * [Features](#features)
 * [Screenshots](#screenshots)
-* [Setup](#setup)
 * [Project Status](#project-status)
 * [Acknowledgements](#acknowledgements)
 
