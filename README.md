@@ -7,6 +7,8 @@ A news app for getting updated news
 * [Features](#features)
 * [Screenshots](#screenshots)
 * [Project Status](#project-status)
+* [Acknowledgements](#acknowledgements)
+* [Contact](#contact)
 
 
 
@@ -38,3 +40,9 @@ A news app for getting updated news
 
 ## Project Status
 Project is: _in progress_ 
+
+## Acknowledgements
+- This project was based on [this tutorial](https://www.youtube.com/watch?v=asuOWE5KuFM&list=PLQkwcJG4YTCRF8XiCRESq1IFFW8COlxYJ).
+
+## Contact
+Created by [ebenezergana](https://www.linkedin.com/in/ebenezergana/) - feel free to contact me!
